@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dejavnosti · VGB Maribor</title>
+<link rel="preload" href="assets/fonts/Whyte-Light.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="dejavnost">
+<main>
+  <section class="page-hero">
+    <div class="media"><img id="heroImg" src="assets/img/svc-urejanje-voda.jpg" alt=""></div>
+    <div class="inner">
+      <div>
+        <p class="crumbs"><a href="index.html">Domov</a> / <a href="index.html#dejavnosti">Dejavnosti</a></p>
+        <h1 class="d1" id="title" style="max-width:14ch"></h1>
+      </div>
+      <p id="blurb" style="max-width:34ch;font-size:19px;opacity:.9;padding-bottom:12px"></p>
+    </div>
+  </section>
+
+  <section class="sp wrap split">
+    <h2 class="d3 rv" style="max-width:12ch">Kaj naredimo za vas</h2>
+    <ul class="chips" id="items"></ul>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(96px,11vw,200px)">
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;margin-bottom:clamp(40px,4vw,72px)">
+      <h2 class="d2 rv">Reference</h2>
+      <p class="lead muted rv" id="refCount"></p>
+    </div>
+    <ul class="refs" id="refs"></ul>
+    <div style="margin-top:40px;display:flex;gap:28px;align-items:center;flex-wrap:wrap">
+      <button class="btn" id="moreBtn">Prikaži vse reference</button>
+      <a class="link" href="kontakt.html">Imate podoben projekt? Pišite nam.</a>
+    </div>
+  </section>
+
+  <section class="wrap" style="background:var(--white);padding-top:clamp(96px,11vw,200px);padding-bottom:clamp(96px,11vw,200px);margin:0 calc(var(--pad)*-1);padding-left:var(--pad);padding-right:var(--pad)">
+    <h2 class="d3 rv" style="margin-bottom:clamp(36px,4vw,64px)">Druga področja</h2>
+    <div class="other" id="other"></div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script src="assets/js/lenis.min.js"></script>
+<script>
+// render content before the shared shell so the footer lands after it
+(function(){
+  const S = window.VGB_SERVICES;
+  const id = new URLSearchParams(location.search).get('s') || S[0].id;
+  window.__svc = S.find(s=>s.id===id) || S[0];
+})();
+</script>
+<script src="assets/js/common.js"></script>
+<script>
+(function(){
+  const S = window.VGB_SERVICES, s = window.__svc;
+  document.title = s.name + ' · VGB Maribor';
+  document.getElementById('heroImg').src = 'assets/img/' + s.img;
+  document.getElementById('title').innerHTML = s.name.split(' ').map(w=>`<span class="line-mask" style="display:inline-block;vertical-align:top"><span>${w}</span></span>`).join(' ');
+  document.getElementById('blurb').textContent = s.blurb;
+  document.getElementById('items').innerHTML = s.items.map(t=>`<li class="rv">${t}</li>`).join('');
+  const n = s.refs.length;
+  document.getElementById('refCount').textContent = n + (n===1?' izbran projekt':' izbranih projektov v zadnjih letih');
+  document.getElementById('refs').innerHTML = s.refs.map((r,i)=>`<li class="${i>=8?'more':''}"><span class="y">${r.y}</span><span class="t">${r.t}</span><span class="c">${r.c}</span></li>`).join('');
+  const btn = document.getElementById('moreBtn');
+  if (n <= 8) btn.remove();
+  btn.addEventListener('click',()=>{document.getElementById('refs').classList.add('all');btn.remove();window.ScrollTrigger&&ScrollTrigger.refresh()});
+  document.getElementById('other').innerHTML = S.filter(o=>o.id!==s.id).map(o=>`<a href="dejavnost.html?s=${o.id}" class="rv"><div class="ph"><img src="assets/img/${o.img}" alt=""></div><h4>${o.name}</h4></a>`).join('');
+  if (!window.gsap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('#title .line-mask>span',{yPercent:110,duration:1.3,ease:'expo.out',stagger:.06,delay:.1});
+  gsap.from('.page-hero .media img',{scale:1.2,duration:2,ease:'expo.out'});
+  gsap.from('#blurb, .crumbs',{opacity:0,y:20,duration:1,ease:'expo.out',delay:.4});
+  window.VGB_INIT_REVEALS();
+  gsap.from('#refs li:not(.more)',{opacity:0,y:24,stagger:.05,duration:.9,ease:'expo.out',scrollTrigger:{trigger:'#refs',start:'top 85%'}});
+})();
+</script>
+</body>
+</html>

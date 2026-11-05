@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontakt · VGB Maribor</title>
+<link rel="preload" href="assets/fonts/Whyte-Light.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="kontakt">
+<main>
+  <section class="page-hero" style="min-height:64svh">
+    <div class="media"><img src="assets/gen/treatment.jpg" alt="Čistilna naprava od zgoraj" style="object-position:50% 40%"></div>
+    <div class="inner">
+      <div>
+        <p class="crumbs"><a href="index.html">Domov</a> / Kontakt</p>
+        <h1 class="d1"><span class="line-mask"><span>Kontakt</span></span></h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="sp wrap split">
+    <div class="rv">
+      <p class="lead">VGB Maribor d.o.o.<br>Glavni trg 19c<br>2000 Maribor</p>
+      <p class="lead" style="margin-top:36px"><a class="link" href="tel:+38622346502">02 23 46 502</a><br><a class="link" href="mailto:tajnistvo@vgb.si">tajnistvo@vgb.si</a></p>
+      <p class="muted" style="margin-top:20px">Fax 02 23 46 520</p>
+      <div class="map" style="margin-top:48px">
+        <iframe title="Zemljevid: Glavni trg 19c, Maribor" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=15.6405%2C46.5545%2C15.6505%2C46.5600&amp;layer=mapnik&amp;marker=46.5572%2C15.6455"></iframe>
+      </div>
+    </div>
+    <form class="form rv" id="form" novalidate>
+      <h2 class="d3 full" style="margin-bottom:12px">Povejte nam o projektu.</h2>
+      <div><label for="f1">Ime in priimek</label><input id="f1" name="ime" autocomplete="name"></div>
+      <div><label for="f2">E-pošta *</label><input id="f2" name="email" type="email" required autocomplete="email"></div>
+      <div class="full"><label for="f3">Zadeva *</label><input id="f3" name="zadeva" required></div>
+      <div class="full"><label for="f4">Sporočilo *</label><textarea id="f4" name="sporocilo" required></textarea></div>
+      <label class="check full"><input type="checkbox" required> Soglašam s politiko zasebnosti. Podatke uporabimo samo za odgovor na vaše sporočilo in jih ne posredujemo tretjim osebam.</label>
+      <div class="full"><button class="btn" type="submit">Pošlji sporočilo</button></div>
+      <p class="sent full">Hvala. Odgovorili vam bomo v najkrajšem času.</p>
+    </form>
+  </section>
+
+  <section class="wrap" style="padding-bottom:clamp(96px,11vw,200px)">
+    <h2 class="d3 rv" style="margin-bottom:clamp(36px,4vw,64px)">Neposredni kontakti</h2>
+    <div class="lead-people">
+      <div class="rv"><em>Direktor, komunala</em><b>Boštjan Rozman</b><a class="link" href="tel:+38622346512">02 23 46 512</a><br><a class="link" href="mailto:bostjan.rozman@vgb.si">bostjan.rozman@vgb.si</a></div>
+      <div class="rv"><em>Projektiva</em><b>Tijana Mićić</b><a class="link" href="tel:+38622346516">02 23 46 516</a><br><a class="link" href="mailto:tijana.micic@vgb.si">tijana.micic@vgb.si</a></div>
+      <div class="rv"><em>Ekologija</em><b>Alenka Kovačič</b><a class="link" href="tel:+38622346510">02 23 46 510</a><br><a class="link" href="mailto:alenka.kovacic@vgb.si">alenka.kovacic@vgb.si</a></div>
+    </div>
+  </section>
+</main>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script src="assets/js/lenis.min.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+document.getElementById('form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(!f.checkValidity()){f.reportValidity();return}
+  f.classList.add('done');f.querySelector('button').disabled=true;
+});
+if (window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.page-hero h1 .line-mask>span',{yPercent:110,duration:1.3,ease:'expo.out',delay:.1});
+  gsap.from('.page-hero .media img',{scale:1.2,duration:2,ease:'expo.out'});
+  window.VGB_INIT_REVEALS();
+}
+</script>
+</body>
+</html>
